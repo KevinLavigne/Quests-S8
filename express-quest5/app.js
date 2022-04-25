@@ -80,6 +80,23 @@ app.put('/api/movies/:movieId', (req, res) => {
 	);
 });
 
+app.delete('/api/movies/:id', (req, res) => {
+  const userId = req.params.id;
+  connection.query(
+    'DELETE FROM movies WHERE id = ?',
+    [userId],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('😱 Error deleting an movie');
+      } else {
+        res.sendStatus(204);
+      }
+    }
+  );
+});
+
+
 app.post('/api/users', (req, res) => {
 	const { firstname, lastname, email } = req.body;
 	connection.query(
@@ -106,7 +123,6 @@ app.get('/api/users', (req, res) => {
 	});
 });
 
-
 // Cette route va mettre à jour un utilisateur en BdD
 app.put('/api/users/:userId', (req, res) => {
 	// On récupère l'id depuis les paramètres de la requête
@@ -127,6 +143,22 @@ app.put('/api/users/:userId', (req, res) => {
 			}
 		}
 	);
+});
+
+app.delete('/api/users/:id', (req, res) => {
+  const userId = req.params.id;
+  connection.query(
+    'DELETE FROM users WHERE id = ?',
+    [userId],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('😱 Error deleting an user');
+      } else {
+        res.sendStatus(204);
+      }
+    }
+  );
 });
 
 app.listen(port, (err) => {
